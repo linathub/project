@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Wishlist</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+    header {
+      background-color: #071d49;
+      color: white;
+      padding: 1rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #071d49;
+    }
+    .wishlist-item {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .product-image {
+      width: 150px;
+      height: auto;
+      margin-right: 2rem;
+    }
+    .product-details {
+      flex: 1;
+    }
+    .product-category {
+      color: #0055aa;
+      font-size: 0.9rem;
+    }
+    .product-name {
+      margin: 0.2rem 0;
+    }
+    .product-price {
+      font-weight: bold;
+      color: #333;
+    }
+    .remove-button {
+      background-color: #ff4444;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .remove-button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <header>← <a href="index.php" style="color: white; text-decoration: none;">back to home</a></header>
+  
+  <div class="container">
+    <h1>Wishlist Saya</h1>
+    <div id="wishlistContainer"></div>
+  </div>
+
+  <script>
+    function tampilkanWishlist() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const container = document.getElementById('wishlistContainer');
+
+      if (wishlist.length === 0) {
+        container.innerHTML = "<p style='text-align: center;'>Belum ada produk di wishlist.</p>";
+        return;
+      }
+
+      wishlist.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'wishlist-item';
+        itemDiv.innerHTML = `
+          <img src="${item.gambar}" alt="${item.nama}" class="product-image">
+          <div class="product-details">
+            <span class="product-category">${item.kategori}</span>
+            <h2 class="product-name">${item.nama}</h2>
+            <p class="product-price">Rp ${item.harga.toLocaleString('id-ID')}</p>
+            <button onclick="hapusWishlist('${item.nama}')" class="remove-button">Hapus</button>
+          </div>
+        `;
+        container.appendChild(itemDiv);
+      });
+    }
+
+    function hapusWishlist(namaProduk) {
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist = wishlist.filter(item => item.nama !== namaProduk);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      location.reload();
+    }
+
+    window.onload = tampilkanWishlist;
+  </script>
+
+</body>
+</html>
