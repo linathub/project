@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist | Kids Toys</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+    }
+
+    .login {
+    padding: 9px 0;
+    background-color: #000080;
+    text-align: right;
+}
+
+/* Header Container */
+    .header-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+    .logo_toko {
+    flex-shrink: 0;
+}
+
+    .nav_logo {
+    width: 100px;
+    height: 90px;
+} 
+
+/* Header Icons */
+.header-icons {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.icon-link {
+    color: #333;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.icon-link:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.icon-link .material-symbols-outlined {
+    font-size: 24px;
+}
+
+
+/* Wishlist Dropdown Styles */
+.wishlist-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .wishlist-link .material-symbols-outlined {
+    font-size: 24px;
+    color: #666;
+    transition: color 0.2s;
+  }
+  
+  .wishlist-link:hover .material-symbols-outlined {
+    color: #e53935;
+  }
+  
+  .wishlist-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .wishlist-dropdown.show {
+    display: block;
+  }
+  
+  .wishlist-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .wishlist-items {
+    padding: 8px 0;
+  }
+  
+  .wishlist-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .wishlist-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 12px;
+    border-radius: 4px;
+  }
+  
+  .wishlist-item-details {
+    flex-grow: 1;
+  }
+  
+  .wishlist-item-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .wishlist-item-price {
+    color: #080808;
+    font-size: 14px;
+  }
+  
+  .remove-wishlist {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+  }
+  
+  .empty-message {
+    text-align: center;
+    padding: 30px 0;
+    color: #999;
+  }
+  
+  /* Product Card Heart Icon */
+  .product-card .wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .product-card .wishlist-btn.active {
+    color: #e53935;
+  }
+
+
+
+/* carttt */
+.cart-icon-wrapper {
+    position: relative;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+  }
+  
+  .cart-popup {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 260px; /* tambahin sedikit biar lega */
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    padding: 15px;
+  }
+  
+  .cart-popup h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+  }
+  
+  .empty-cart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* kasih jarak antar elemen */
+    text-align: center;
+  }
+  
+  .empty-cart h4 {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .empty-cart .btn-continue {
+    background-color: #0a1c4c;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  
+  .empty-cart p {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+  }
+  
+  .empty-cart a {
+    color: #0a1c4c;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 13px;
+  }
+  
+  
+  .cart-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .cart-popup li {
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+
+  .cart-popup li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  
+  .remove-item {
+    background: none;
+    border: none;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+  }
+  
+  .cart-total {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 15px;
+  }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0a017c;
+      margin-bottom: 30px;
+    }
+
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .wishlist-item {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .wishlist-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .wishlist-item img {
+      width: 50%;
+      height: 270px;
+      object-fit: cover;
+    }
+
+    .wishlist-info {
+      padding: 15px;
+    }
+
+    .wishlist-info h3 {
+      margin: 0 0 10px;
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    .wishlist-info p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .wishlist-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wishlist-actions button {
+      background-color: #756bff;
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .wishlist-actions button:hover {
+      background-color: #ff5252;
+    }
+
+    .wishlist-actions a {
+      font-size: 14px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .wishlist-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="login">
+        </div>
+
+        <header>
+            <div class="header-container">
+                <!-- Logo Toko -->
+                <div class="logo_toko">
+                    <img src="gambar/logotoy.png" alt="Toy logo" class="nav_logo"/>
+                </div>
+
+                <div class="header-icons">
+                  <div class="wishlist-link" id="wishlist-toggle">
+                    <span class="material-symbols-outlined">favorite</span>
+                    
+                    <!-- Dropdown Wishlist -->
+                    <div class="wishlist-dropdown">
+                      <div class="wishlist-header">
+                        <h3>Wishlist Saya</h3>
+                        <button class="close-wishlist" aria-label="Close wishlist">
+                          <span class="material-symbols-outlined">close</span>
+                        </button>
+                      </div>
+                      <div class="wishlist-items">
+                        <div class="empty-message">
+                          <span class="material-symbols-outlined">favorite</span>
+                          <p>Wishlist Anda kosong</p>
+                        </div>
+                      </div>
+                      <div class="wishlist-footer">
+                        <button class="btn-view-all">Lihat Semua</button>
+                      </div>
+                    </div>
+                  </div>
+
+
+                    <a href="user.html" class="icon-link">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                    <div class="cart-icon-wrapper">
+                      <a href="#" id="cart-icon" class="icon-link">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span class="cart-count">0</span> <!-- jumlah item -->
+                      </a>
+                      <div id="cart-popup" class="cart-popup">
+                        <h4>Keranjang</h4>
+                        <ul id="cart-list-navbar">
+                          <li id="empty-cart" class="empty-cart">
+                            <h4>Keranjang Anda Kosong</h4>
+                            <button onclick="window.location.href='#'" class="btn-continue">Lanjutkan belanja</button>
+                            <p><strong>Sudah punya akun ?</strong></p>
+                            <p><a href="login.php">Login</a> untuk checkout lebih cepat</p>
+                          </li>
+                        </ul>
+                        <p id="cart-total" class="cart-total">Total: Rp 0</p>
+                      </div>
+                    </div>
+
+                </div>
+            </div>
+
+  <div class="container">
+    <h1>Wishlist</h1>
+    <div class="wishlist-grid">
+
+      <div class="wishlist-item">
+        <img src="gambar/cat Teddy Bear.jpg" alt="Mainan 1">
+        <div class="wishlist-info">
+          <h3>Boneka Lucu</h3>
+          <p>Rp 85.000</p>
+          <div class="wishlist-actions">
+            <a href="#">Lihat Detail</a>
+            <button>Hapus</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="wishlist-item">
+        <img src="gambar/download (6).jpg" alt="Mainan 2">
+        <div class="wishlist-info">
+          <h3>Lego Warna-warni</h3>
+          <p>Rp 120.000</p>
+          <div class="wishlist-actions">
+            <a href="#">Lihat Detail</a>
+            <button>Hapus</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tambahkan produk lainnya -->
+
+    </div>
+  </div>
+</body>
+</html>
